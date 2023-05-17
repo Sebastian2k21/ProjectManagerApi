@@ -7,11 +7,11 @@ namespace ProjectManagerApi.Dto
         [Required]
         [MaxLength(50)]
         [EmailAddress]
-        public string? Email { get; set; }
+        public string Email { get; set; } = null!;
 
         [Required]
         [MinLength(4)]
         [MaxLength(50)]
-        public string? Password { get; set; }
+        public string Password { get; set; } = null!;
     }
 }

@@ -21,7 +21,10 @@ var connectionString = builder.Configuration.GetConnectionString("Default");
 builder.Services.AddDbContext<DataContext>(sql => sql.UseSqlServer(connectionString));
 builder.Services.AddAutoMapper(typeof(MapperProfile));
 builder.Services.AddScoped<IBaseRepository<User>, UserRepository>();
+builder.Services.AddScoped<IBaseRepository<Tech>, TechRepository>();
+builder.Services.AddScoped<IBaseRepository<Language>, LanguageRepository>();
 builder.Services.AddSingleton<ITokenService, TokenService>();
+builder.Services.AddScoped<IUserService, UserService>();
 
 var issuer = builder.Configuration["Jwt:Issuer"];
 var audience = builder.Configuration["Jwt:Audience"];

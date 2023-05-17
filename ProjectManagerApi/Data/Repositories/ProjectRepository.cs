@@ -41,6 +41,11 @@ namespace ProjectManagerApi.Data.Repositories
             throw new NotImplementedException();
         }
 
+        public Task<Project> FindFirst(Expression<Func<Project, bool>> expression)
+        {
+            throw new NotImplementedException();
+        }
+
         public Task<Project> Get(int id)
         {
             throw new NotImplementedException();
