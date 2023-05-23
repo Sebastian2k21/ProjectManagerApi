@@ -1,8 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using ProjectManagerApi.Data.Repositories;
+using System.ComponentModel.DataAnnotations;
 
 namespace ProjectManagerApi.Data.Models
 {
-    public class Status
+    public class Status : IEntity<int>
     {
         [Key]
         public int StatusId { get; set; }
@@ -10,5 +11,10 @@ namespace ProjectManagerApi.Data.Models
         [Required]
         [MaxLength(50)]
         public string? Name { get; set; }
+
+        public int GetId()
+        {
+            return StatusId;
+        }
     }
 }

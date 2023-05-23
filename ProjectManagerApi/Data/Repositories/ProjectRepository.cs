@@ -36,29 +36,26 @@ namespace ProjectManagerApi.Data.Repositories
             return await context.Projects.Where(expression).ToListAsync();
         }
 
-        public Task<Project> FindFirst(Expression<Func<User, bool>> expression)
+        public async Task<Project> FindFirst(Expression<Func<Project, bool>> expression)
         {
-            throw new NotImplementedException();
+            return await context.Projects.FirstOrDefaultAsync(expression);
         }
 
-        public Task<Project> FindFirst(Expression<Func<Project, bool>> expression)
+        public async Task<Project> Get(int id)
         {
-            throw new NotImplementedException();
+            return await FindFirst(x => x.ProjectId == id); 
         }
 
-        public Task<Project> Get(int id)
+        public async Task<List<Project>> GetAll()
         {
-            throw new NotImplementedException();
+            return await context.Projects.ToListAsync();
         }
 
-        public Task<List<Project>> GetAll()
+        public async Task<Project> Update(Project entity)
         {
-            throw new NotImplementedException();
-        }
-
-        public Task<Project> Update(Project entity)
-        {
-            throw new NotImplementedException();
+            context.Update(entity);
+            await context.SaveChangesAsync();
+            return entity;
         }
     }
 }

@@ -1,9 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using ProjectManagerApi.Data.Repositories;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ProjectManagerApi.Data.Models
 {
-    public class Project
+    public class Project : IEntity<int>
     {
         [Key]
         public int ProjectId { get; set; }
@@ -38,5 +39,10 @@ namespace ProjectManagerApi.Data.Models
 
         public List<Language> Languages { get; set; } = new List<Language>();
         public List<Tech> Technologies { get; set; } = new List<Tech>();
+
+        public int GetId()
+        {
+            return ProjectId;
+        }
     }
 }

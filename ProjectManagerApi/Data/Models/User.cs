@@ -1,8 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using ProjectManagerApi.Data.Repositories;
+using System.ComponentModel.DataAnnotations;
 
 namespace ProjectManagerApi.Data.Models
 {
-    public class User
+    public class User : IEntity<int>
     {
         [Key]
         public int Id { get; set; }
@@ -29,5 +30,10 @@ namespace ProjectManagerApi.Data.Models
 
         public List<Tech> Technologies { get; set; } = new List<Tech>();
         public List<Language> Laguages { get; set; } = new List<Language>();
+
+        public int GetId()
+        {
+            return Id;
+        }
     }
 }

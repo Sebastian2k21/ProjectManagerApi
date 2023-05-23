@@ -3,7 +3,7 @@ using System.Linq.Expressions;
 
 namespace ProjectManagerApi.Data.Repositories
 {
-    public interface IBaseRepository<T> where T : class
+    public interface IBaseRepository<T> where T : IEntity<int>
     {
         Task<T> Get(int id);
         Task<List<T>> GetAll();

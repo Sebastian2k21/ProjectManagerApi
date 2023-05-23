@@ -1,6 +1,7 @@
 ﻿using ProjectManagerApi.Data.Models;
 using ProjectManagerApi.Data.Repositories;
 using ProjectManagerApi.Exceptions;
+using ProjectManagerApi.Extensions;
 using System.Security.Cryptography;
 
 namespace ProjectManagerApi.Services
@@ -25,8 +26,8 @@ namespace ProjectManagerApi.Services
             HMACSHA512 hmac = new HMACSHA512();
             user.PasswordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
             user.PasswordSalt = hmac.Key;
-            user.Technologies.AddRange(await GetCollectionFromDB(techRepository, technologies, "Invalid technology ID"));
-            user.Laguages.AddRange(await GetCollectionFromDB(languageRepository, languages, "Invalid language ID"));
+            user.Technologies.AddRange(await techRepository.GetCollectionFromDB(technologies, "Invalid technology ID"));
+            user.Laguages.AddRange(await languageRepository.GetCollectionFromDB(languages, "Invalid language ID"));
             await userRepository.Add(user);
             return user;
         }
@@ -46,16 +47,6 @@ namespace ProjectManagerApi.Services
             HMACSHA512 hmac = new HMACSHA512(user.PasswordSalt);
             var hash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
             return user.PasswordHash.SequenceEqual(hash); //porownuje czy w obu tabliacach sa takie same elementy, bez tego trzeba by bylo uzyc petli
-        }
-
-        private async Task<List<T>> GetCollectionFromDB<T>(IBaseRepository<T> repository, List<int> ids, string? errorMessage = null) where T : class 
-        {
-            List<T> items = new List<T>();
-            foreach (int id in ids)
-            {
-                items.Add(await repository.Get(id) ?? throw new InvalidItemId(errorMessage));
-            }
-            return items;
         }
     }
 }
