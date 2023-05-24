@@ -4,7 +4,7 @@ using System.Linq.Expressions;
 
 namespace ProjectManagerApi.Data.Repositories
 {
-    public class UserRepository : IBaseRepository<User>
+    public class UserRepository : IBaseRepository<User, int>
     {
         private readonly DataContext context;
 
@@ -22,10 +22,6 @@ namespace ProjectManagerApi.Data.Repositories
         public async Task<User> Delete(int id)
         {
             var entity = await Get(id);
-            if(entity == null)
-            {
-                return null;
-            }
             context.Remove(entity);
             await context.SaveChangesAsync();
             return entity;

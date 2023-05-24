@@ -9,6 +9,7 @@ namespace ProjectManagerApi.Profiles
         public MapperProfile()
         {
             CreateMap<RegisterDto, User>();
+            CreateMap<ProjectDto, Project>();
         }
     }
 }

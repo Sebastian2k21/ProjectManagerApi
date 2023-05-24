@@ -59,12 +59,5 @@ namespace ProjectManagerApi.Controllers
 
             return BadRequest("Invalid data in body");
         }
-
-        [HttpGet("test")]
-        [Authorize]
-        public IActionResult Test()
-        {
-            return Ok();
-        }
     }
 }

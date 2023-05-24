@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ProjectManagerApi.Data.Models
 {
-    public class Language : IEntity<int>
+    public class Language
     {
         [Key]
         public int LanguageId { get; set; }
@@ -14,10 +14,5 @@ namespace ProjectManagerApi.Data.Models
 
         public List<Project> Projects { get; set; } = new List<Project>();
         public List<User> Users { get; set; } = new List<User>();
-
-        public int GetId()
-        {
-            return LanguageId;
-        }
     }
 }

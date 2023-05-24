@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ProjectManagerApi.Data.Models
 {
-    public class Status : IEntity<int>
+    public class Status
     {
         [Key]
         public int StatusId { get; set; }
@@ -11,10 +11,5 @@ namespace ProjectManagerApi.Data.Models
         [Required]
         [MaxLength(50)]
         public string? Name { get; set; }
-
-        public int GetId()
-        {
-            return StatusId;
-        }
     }
 }

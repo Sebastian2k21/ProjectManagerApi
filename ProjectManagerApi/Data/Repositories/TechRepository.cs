@@ -5,7 +5,7 @@ using System.Linq.Expressions;
 
 namespace ProjectManagerApi.Data.Repositories
 {
-    public class TechRepository : IBaseRepository<Tech>
+    public class TechRepository : IBaseRepository<Tech, int>
     {
         private readonly DataContext context;
 
@@ -14,19 +14,24 @@ namespace ProjectManagerApi.Data.Repositories
             this.context = context;
         }
 
-        public Task<Tech> Add(Tech entity)
+        public async Task<Tech> Add(Tech entity)
         {
-            throw new NotImplementedException();
+            await context.Technologies.AddAsync(entity);
+            await context.SaveChangesAsync();
+            return entity;
         }
 
-        public Task<Tech> Delete(int id)
+        public async Task<Tech> Delete(int id)
         {
-            throw new NotImplementedException();
+            var entity = await Get(id);
+            context.Technologies.Remove(entity);
+            await context.SaveChangesAsync();
+            return entity;
         }
 
-        public Task<List<Tech>> FindAll(Expression<Func<Tech, bool>> expression)
+        public async Task<List<Tech>> FindAll(Expression<Func<Tech, bool>> expression)
         {
-            throw new NotImplementedException();
+            return await context.Technologies.Where(expression).ToListAsync();
         }
 
         public async Task<Tech> FindFirst(Expression<Func<Tech, bool>> expression)
@@ -39,14 +44,16 @@ namespace ProjectManagerApi.Data.Repositories
             return await FindFirst(x => x.TechId == id);
         }
 
-        public Task<List<Tech>> GetAll()
+        public async Task<List<Tech>> GetAll()
         {
-            throw new NotImplementedException();
+            return await context.Technologies.ToListAsync();
         }
 
-        public Task<Tech> Update(Tech entity)
+        public async Task<Tech> Update(Tech entity)
         {
-            throw new NotImplementedException();
+            context.Update(entity);
+            await context.SaveChangesAsync();
+            return entity;
         }
     }
 }

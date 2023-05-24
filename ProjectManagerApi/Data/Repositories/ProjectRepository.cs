@@ -4,7 +4,7 @@ using System.Linq.Expressions;
 
 namespace ProjectManagerApi.Data.Repositories
 {
-    public class ProjectRepository : IBaseRepository<Project>
+    public class ProjectRepository : IBaseRepository<Project, int>
     {
         private readonly DataContext context;
 

@@ -4,7 +4,7 @@ using System.Linq.Expressions;
 
 namespace ProjectManagerApi.Data.Repositories
 {
-    public class TeamRepository : IBaseRepository<Team>
+    public class TeamRepository : IBaseRepository<Team, int>
     {
         private readonly DataContext context;
 
@@ -16,6 +16,7 @@ namespace ProjectManagerApi.Data.Repositories
         public async Task<Team> Add(Team entity)
         {
             await context.AddAsync(entity);
+            await context.SaveChangesAsync();
             return entity;
         }
 
@@ -23,6 +24,7 @@ namespace ProjectManagerApi.Data.Repositories
         {
             var entity = await Get(id);
             context.Remove(entity);
+            await context.SaveChangesAsync();
             return entity;
         }
 

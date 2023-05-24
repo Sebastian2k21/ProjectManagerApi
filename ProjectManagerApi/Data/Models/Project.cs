@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ProjectManagerApi.Data.Models
 {
-    public class Project : IEntity<int>
+    public class Project 
     {
         [Key]
         public int ProjectId { get; set; }
@@ -39,10 +39,5 @@ namespace ProjectManagerApi.Data.Models
 
         public List<Language> Languages { get; set; } = new List<Language>();
         public List<Tech> Technologies { get; set; } = new List<Tech>();
-
-        public int GetId()
-        {
-            return ProjectId;
-        }
     }
 }

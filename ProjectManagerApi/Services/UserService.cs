@@ -9,11 +9,14 @@ namespace ProjectManagerApi.Services
     public class UserService : IUserService
     {
         private readonly ITokenService tokenService;
-        private readonly IBaseRepository<User> userRepository;
-        private readonly IBaseRepository<Tech> techRepository;
-        private readonly IBaseRepository<Language> languageRepository;
+        private readonly IBaseRepository<User, int> userRepository;
+        private readonly IBaseRepository<Tech, int> techRepository;
+        private readonly IBaseRepository<Language, int> languageRepository;
 
-        public UserService(ITokenService tokenService, IBaseRepository<User> userRepository, IBaseRepository<Tech> techRepository, IBaseRepository<Language> languageRepository)
+        public UserService(ITokenService tokenService, 
+            IBaseRepository<User, int> userRepository, 
+            IBaseRepository<Tech, int> techRepository, 
+            IBaseRepository<Language, int> languageRepository)
         {
             this.tokenService = tokenService;
             this.userRepository = userRepository;

@@ -1,10 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ProjectManagerApi.Data.Models;
+using System.Linq;
 using System.Linq.Expressions;
 
 namespace ProjectManagerApi.Data.Repositories
 {
-    public class LanguageRepository : IBaseRepository<Language>
+    public class LanguageRepository : IBaseRepository<Language, int>
     {
         private readonly DataContext context;
 
@@ -13,19 +14,24 @@ namespace ProjectManagerApi.Data.Repositories
             this.context = context;
         }
 
-        public Task<Language> Add(Language entity)
+        public async Task<Language> Add(Language entity)
         {
-            throw new NotImplementedException();
+            await context.AddAsync(entity);
+            await context.SaveChangesAsync();
+            return entity;
         }
 
-        public Task<Language> Delete(int id)
+        public async Task<Language> Delete(int id)
         {
-            throw new NotImplementedException();
+            var entity = await Get(id);
+            context.Languages.Remove(entity);
+            await context.SaveChangesAsync();
+            return entity;
         }
 
-        public Task<List<Language>> FindAll(Expression<Func<Language, bool>> expression)
+        public async Task<List<Language>> FindAll(Expression<Func<Language, bool>> expression)
         {
-            throw new NotImplementedException();
+            return await context.Languages.Where(expression).ToListAsync();
         }
 
         public async Task<Language> FindFirst(Expression<Func<Language, bool>> expression)
@@ -38,14 +44,16 @@ namespace ProjectManagerApi.Data.Repositories
             return await FindFirst(x => x.LanguageId == id);
         }
 
-        public Task<List<Language>> GetAll()
+        public async Task<List<Language>> GetAll()
         {
-            throw new NotImplementedException();
+            return await context.Languages.ToListAsync();
         }
 
-        public Task<Language> Update(Language entity)
+        public async Task<Language> Update(Language entity)
         {
-            throw new NotImplementedException();
+            context.Update(entity);
+            await context.SaveChangesAsync();
+            return entity;
         }
     }
 }

@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ProjectManagerApi.Data.Models
 {
-    public class Team : IEntity<int>
+    public class Team
     { 
         [Key]
         public int TeamId { get; set; }
@@ -11,11 +11,6 @@ namespace ProjectManagerApi.Data.Models
         [Required]
         [MaxLength(100)]
         public string? Name { get; set; }
-
-        public int GetId()
-        {
-            return TeamId;
-        }
 
     }
 }

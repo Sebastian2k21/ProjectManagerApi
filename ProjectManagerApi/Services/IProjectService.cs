@@ -1,0 +1,10 @@
+﻿using ProjectManagerApi.Data.Models;
+
+namespace ProjectManagerApi.Services
+{
+    public interface IProjectService
+    {
+        Task<Project> CreateProject(int userId, Project project, List<int> technologies, List<int> languages);
+        Task<List<Project>> GetAllProjects();
+    }
+}
