@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using ProjectManagerApi.Data.Models;
 using ProjectManagerApi.Dto;
 using ProjectManagerApi.Exceptions;
+using ProjectManagerApi.Extensions;
 using ProjectManagerApi.Services;
 using System.Security.Claims;
 
@@ -27,7 +28,7 @@ namespace ProjectManagerApi.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAllProjects()
         {
-            return Ok(await projectService.GetAllProjects());
+            return Ok(mapper.Map<List<ProjectGetDto>>(await projectService.GetAllProjects()));
         }
 
         [HttpPost]
@@ -37,14 +38,27 @@ namespace ProjectManagerApi.Controllers
             {
                 try
                 {
-                    string userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-                    var project = await projectService.CreateProject(int.Parse(userId) ,mapper.Map<Project>(projectDto), projectDto.TechnologiesList, projectDto.LanguagesList);
-                    return Ok(project);
+                    int userId = User.GetUserId();
+                    var project = await projectService.CreateProject(userId ,mapper.Map<Project>(projectDto), projectDto.TechnologiesList, projectDto.LanguagesList);
+                    return Ok(mapper.Map<ProjectGetDto>(project));
                 }
                 catch (InvalidItemIdException e)
                 {
                     return BadRequest(e.Message);
                 }
+            }
+
+            return BadRequest(ModelState);
+        }
+
+        [HttpPost("add-user")]
+        public async Task<IActionResult> AddUserToProject(AddUserDto addUserDto)
+        {
+            if(ModelState.IsValid)
+            {
+                var leaderId = User.GetUserId();
+                await projectService.AddUserToProject(addUserDto.ProjectId, leaderId, addUserDto.UserId, addUserDto.RoleId);
+                return Ok();
             }
 
             return BadRequest(ModelState);

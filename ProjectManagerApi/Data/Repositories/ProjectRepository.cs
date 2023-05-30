@@ -33,7 +33,11 @@ namespace ProjectManagerApi.Data.Repositories
 
         public async Task<List<Project>> FindAll(Expression<Func<Project, bool>> expression)
         {
-            return await context.Projects.Where(expression).ToListAsync();
+            return await context.Projects
+                .Include(x => x.Languages)
+                .Include(x => x.Technologies)
+                .Include(x => x.Team)
+                .Where(expression).ToListAsync();
         }
 
         public async Task<Project> FindFirst(Expression<Func<Project, bool>> expression)
@@ -48,7 +52,11 @@ namespace ProjectManagerApi.Data.Repositories
 
         public async Task<List<Project>> GetAll()
         {
-            return await context.Projects.ToListAsync();
+            return await context.Projects
+                .Include(x => x.Languages)
+                .Include(x => x.Technologies)
+                .Include(x => x.Team)
+                .ToListAsync();
         }
 
         public async Task<Project> Update(Project entity)

@@ -11,12 +11,12 @@ namespace ProjectManagerApi.Data.Models
         public Role? Role { get; set; }
 
         [ForeignKey(nameof(User))]
-        public int UserId { get; set; }
+        public int? UserId { get; set; }
 
         [ForeignKey(nameof(Team))]
-        public int TeamId { get; set; }
+        public int? TeamId { get; set; }
 
         [ForeignKey(nameof(Role))]
-        public int RoleId { get; set; }
+        public int? RoleId { get; set; }
     }
 }

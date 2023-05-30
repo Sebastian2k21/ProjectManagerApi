@@ -40,22 +40,14 @@ namespace ProjectManagerApi.Services
 
         public async Task<Project> CreateProject(int userId, Project project, List<int> technologies, List<int> languages)
         {
-            var user = await userRepository.Get(userId);
-            if (user == null)
-            {
-                throw new InvalidItemIdException("User not found");
-            }
+            var user = await userRepository.Get(userId) ?? throw new InvalidItemIdException("User not found");
 
             var projectTechnologies = await technologyRepsitory.GetCollectionFromDB(technologies, "Technology not found");
             var projectLanguages = await languageRepository.GetCollectionFromDB(languages, "Language not found");
 
             var team = new Team { Name = project.Name + " - team" };
 
-            var role = await roleRepository.FindFirst(role => role.Name == "Leader");
-            if(role == null)
-            {
-                throw new InvalidItemIdException("Role 'Leader' not found");
-            }
+            var role = await roleRepository.FindFirst(role => role.Name == "Leader") ?? throw new InvalidItemIdException("Role 'Leader' not found");
 
             var teamUser = new TeamUser
             {
@@ -73,6 +65,35 @@ namespace ProjectManagerApi.Services
             await projectRepository.Add(project);
 
             return project;
+        }
+
+        public async Task AddUserToProject(int projectId, int leaderId, int userId, int roleId)
+        {
+            var leader = await userRepository.Get(leaderId) ?? throw new InvalidItemIdException("Leader not found");
+            var user = await userRepository.Get(userId) ?? throw new InvalidItemIdException("User not found"); 
+            var project = await projectRepository.Get(projectId) ?? throw new InvalidItemIdException("Project not found"); 
+            var role = await roleRepository.Get(roleId) ?? throw new InvalidItemIdException("Role not found");
+
+            var leaderRole = await roleRepository.FindFirst(role => role.Name == "Leader") ?? throw new InvalidItemIdException("Role 'Leader' not found");
+            var teamLeader = await teamUserRepository.FindFirst(x => x.RoleId == leaderRole.RoleId && x.TeamId == project.TeamId) ?? throw new InvalidItemIdException("Team leader not found");
+
+            if (teamLeader.UserId != leaderId)
+            {
+                throw new InvalidItemIdException("User is not a leader of this project");
+            }
+
+            if(await teamUserRepository.FindFirst(x => x.UserId == userId && x.TeamId == project.TeamId) != null)
+            {
+                throw new InvalidItemIdException("User is already in this project");
+            }
+
+            var teamUser = new TeamUser
+            {
+                RoleId = roleId,
+                TeamId = project.TeamId,
+                UserId = userId
+            };
+            await teamUserRepository.Add(teamUser);
         }
     }
 }

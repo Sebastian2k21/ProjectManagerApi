@@ -6,5 +6,6 @@ namespace ProjectManagerApi.Services
     {
         Task<Project> CreateProject(int userId, Project project, List<int> technologies, List<int> languages);
         Task<List<Project>> GetAllProjects();
+        Task AddUserToProject(int projectId, int leaderId, int userId, int roleId);
     }
 }
