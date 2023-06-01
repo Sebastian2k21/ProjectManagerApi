@@ -6,6 +6,9 @@ namespace ProjectManagerApi.Data.Models
 {
     public class ProjectStatus
     {
+        [Key]
+        public int ProjectStatusId { get; set; }
+
         [Required]
         public Project? Project { get; set; }
 

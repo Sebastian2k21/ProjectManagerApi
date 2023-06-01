@@ -61,6 +61,8 @@ builder.Services.AddScoped<IBaseRepository<Language, int>, LanguageRepository>()
 builder.Services.AddScoped<IBaseRepository<Project, int>, ProjectRepository>();
 builder.Services.AddScoped<IBaseRepository<Team, int>, TeamRepository>();
 builder.Services.AddScoped<IBaseRepository<Role, int>, RoleRepository>();
+builder.Services.AddScoped<IBaseRepository<Status, int>, StatusRepository>();
+builder.Services.AddScoped<IBaseRepository<ProjectStatus, int>, ProjectStatusRepository>();
 builder.Services.AddScoped<IBaseRepository<TeamUser, (int userId, int teamId, int RoleId)>, TeamUserRepository>();
 
 builder.Services.AddSingleton<ITokenService, TokenService>();

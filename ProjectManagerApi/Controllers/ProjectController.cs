@@ -11,7 +11,7 @@ using System.Security.Claims;
 
 namespace ProjectManagerApi.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/project")]
     [ApiController]
     [Authorize]
     public class ProjectController : ControllerBase
@@ -52,12 +52,38 @@ namespace ProjectManagerApi.Controllers
         }
 
         [HttpPost("add-user")]
-        public async Task<IActionResult> AddUserToProject(AddUserDto addUserDto)
+        public async Task<IActionResult> AddUserToProject(TeamUserDto addUserDto)
         {
             if(ModelState.IsValid)
             {
                 var leaderId = User.GetUserId();
                 await projectService.AddUserToProject(addUserDto.ProjectId, leaderId, addUserDto.UserId, addUserDto.RoleId);
+                return Ok();
+            }
+
+            return BadRequest(ModelState);
+        }
+
+        [HttpPut("change-role")]
+        public async Task<IActionResult> ChangeRole(TeamUserDto addUserDto)
+        {
+            if (ModelState.IsValid)
+            {
+                var leaderId = User.GetUserId();
+                await projectService.ChangeUserRole(addUserDto.ProjectId, leaderId, addUserDto.UserId, addUserDto.RoleId);
+                return Ok();
+            }
+
+            return BadRequest(ModelState);
+        }
+
+        [HttpPost("add-status")]
+        public async Task<IActionResult> AddStatus(ProjectStatusDto projectStatusDto)
+        {
+            if (ModelState.IsValid)
+            {
+                var leaderId = User.GetUserId();
+                await projectService.SetProjectStatus(projectStatusDto.ProjectId, leaderId, projectStatusDto.StatusId);
                 return Ok();
             }
 

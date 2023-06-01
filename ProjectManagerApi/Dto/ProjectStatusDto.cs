@@ -2,15 +2,11 @@
 
 namespace ProjectManagerApi.Dto
 {
-    public class TeamUserDto
+    public class ProjectStatusDto
     {
         [Required]
-        public int UserId { get; set; }
-
-        [Required]
         public int ProjectId { get; set; }
-
         [Required]
-        public int RoleId { get; set; } 
+        public int StatusId { get; set; }
     }
 }

@@ -24,12 +24,6 @@ namespace ProjectManagerApi.Data
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<ProjectStatus>().HasKey(u => new
-            {
-                u.StatusId,
-                u.ProjectId
-            });
-
             modelBuilder.Entity<TeamUser>().HasKey(u => new
             {
                 u.UserId,
