@@ -34,7 +34,7 @@ namespace ProjectManagerApi.Controllers
                 try
                 {
                     var tech = await techService.AddNewTech(mapper.Map<Tech>(technology));
-                    return Ok(mapper.Map<Language>(tech));
+                    return Ok(mapper.Map<Tech>(tech));
                 }
                 catch (InvalidItemIdException e)
                 {

@@ -183,5 +183,44 @@ namespace ProjectManagerApi.Services
 
             return  pwpr;
         }
+
+        public async Task<IEnumerable<Project>> GetProjectsByLanguage(int langId)
+        {
+            var allprojects = await projectRepository.GetAll();
+
+            var language = (await languageRepository.GetAll()).Where(l => l.LanguageId == langId).FirstOrDefault();
+
+            if(language != null)
+            {
+                var filteredprojects = allprojects.Where(p => p.Languages.Contains(language)).ToList();
+                return filteredprojects;
+            }
+            
+            else
+            {
+                throw new NullReferenceException("There aren't any projects with this language.");
+            }
+            
+        }
+
+        public async Task<IEnumerable<Project>> GetProjectsByTech(int techId)
+        {
+            var allprojects = await projectRepository.GetAll();
+
+            var technology = (await technologyRepsitory.GetAll()).Where(l => l.TechId == techId).FirstOrDefault();
+
+            if (technology != null)
+            {
+                var filteredprojects = allprojects.Where(p => p.Technologies.Contains(technology)).ToList();
+                return filteredprojects;
+            }
+            
+            else
+            {
+                throw new NullReferenceException("There aren't any projects with this technology.");
+            }
+            
+        }
+
     }
 }

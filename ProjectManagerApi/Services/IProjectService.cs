@@ -1,4 +1,5 @@
 ﻿using ProjectManagerApi.Data.Models;
+using System.Runtime.CompilerServices;
 
 namespace ProjectManagerApi.Services
 {
@@ -10,5 +11,8 @@ namespace ProjectManagerApi.Services
         Task ChangeUserRole(int projectId, int leaderId, int userId, int roleId);
         Task SetProjectStatus(int projectId, int leaderId, int statusId);
         Task<IEnumerable<Project>> GetAllProjectWithPrivateRecruitment();
+        Task<IEnumerable<Project>> GetProjectsByLanguage(int langId);
+        Task<IEnumerable<Project>> GetProjectsByTech(int techId);
+
     }
 }

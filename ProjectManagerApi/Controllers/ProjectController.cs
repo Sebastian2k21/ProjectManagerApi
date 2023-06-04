@@ -94,5 +94,16 @@ namespace ProjectManagerApi.Controllers
         {
             return Ok(mapper.Map<List<ProjectGetDto>>(await projectService.GetAllProjectWithPrivateRecruitment()));
         }
+
+        [HttpGet("serach-by-lang/{langId}")]
+        public async Task<IActionResult> GetProjectsByLanguage(int langId)
+        {
+            return Ok(mapper.Map<List<ProjectGetDto>>(await projectService.GetProjectsByLanguage(langId)));
+        }
+        [HttpGet("search-by-tech/{tech}")]
+        public async Task<IActionResult> GetProjectsByTech(int techId)
+        {
+            return Ok(mapper.Map<List<ProjectGetDto>>(await projectService.GetProjectsByTech(techId)));
+        }
     }
 }

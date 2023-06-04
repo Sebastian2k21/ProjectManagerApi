@@ -23,6 +23,7 @@ namespace ProjectManagerApi.Profiles
             CreateMap<TechDto, Tech>();
             CreateMap<AddTechDto, Tech>();
             CreateMap<Tech,AddTechDto>();
+
         }
     }
 }
