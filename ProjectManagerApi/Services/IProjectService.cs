@@ -9,5 +9,6 @@ namespace ProjectManagerApi.Services
         Task AddUserToProject(int projectId, int leaderId, int userId, int roleId);
         Task ChangeUserRole(int projectId, int leaderId, int userId, int roleId);
         Task SetProjectStatus(int projectId, int leaderId, int statusId);
+        Task<IEnumerable<Project>> GetAllProjectWithPrivateRecruitment();
     }
 }

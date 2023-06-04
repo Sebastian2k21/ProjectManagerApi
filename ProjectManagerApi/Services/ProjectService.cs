@@ -174,5 +174,14 @@ namespace ProjectManagerApi.Services
 
         private async Task<Project> GetProject(int id) => await projectRepository.Get(id) ?? throw new InvalidItemIdException("Project not found");
         private async Task<Status> GetStatus(int id) => await statusRepository.Get(id) ?? throw new InvalidItemIdException("Status not found");
+
+        public async Task<IEnumerable<Project>> GetAllProjectWithPrivateRecruitment()
+        {
+            var projects = await projectRepository.GetAll();
+
+            var pwpr = projects.Where(p => p.PrivateRecruitment == false).ToList();
+
+            return  pwpr;
+        }
     }
 }

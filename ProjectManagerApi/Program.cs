@@ -65,9 +65,12 @@ builder.Services.AddScoped<IBaseRepository<Status, int>, StatusRepository>();
 builder.Services.AddScoped<IBaseRepository<ProjectStatus, int>, ProjectStatusRepository>();
 builder.Services.AddScoped<IBaseRepository<TeamUser, (int userId, int teamId, int RoleId)>, TeamUserRepository>();
 
+
 builder.Services.AddSingleton<ITokenService, TokenService>();
 builder.Services.AddScoped<IProjectService, ProjectService>();
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<ILanguageService, LanguageService>();
+builder.Services.AddScoped<ITechService, TechService>();
 
 var issuer = builder.Configuration["Jwt:Issuer"];
 var audience = builder.Configuration["Jwt:Audience"];

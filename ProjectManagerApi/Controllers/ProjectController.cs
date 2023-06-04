@@ -13,7 +13,6 @@ namespace ProjectManagerApi.Controllers
 {
     [Route("api/project")]
     [ApiController]
-    [Authorize]
     public class ProjectController : ControllerBase
     {
         private readonly IMapper mapper;
@@ -25,7 +24,7 @@ namespace ProjectManagerApi.Controllers
             this.projectService = projectService;
         }
 
-        [HttpGet]
+        [HttpGet("get-all-projects")]
         public async Task<IActionResult> GetAllProjects()
         {
             return Ok(mapper.Map<List<ProjectGetDto>>(await projectService.GetAllProjects()));
@@ -88,6 +87,12 @@ namespace ProjectManagerApi.Controllers
             }
 
             return BadRequest(ModelState);
+        }
+
+        [HttpGet("projects-with-private-recruitment")]
+        public async Task<IActionResult> GetAllProjectWithPrivateRecruitment()
+        {
+            return Ok(mapper.Map<List<ProjectGetDto>>(await projectService.GetAllProjectWithPrivateRecruitment()));
         }
     }
 }
