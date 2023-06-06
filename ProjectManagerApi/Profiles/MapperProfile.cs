@@ -24,6 +24,8 @@ namespace ProjectManagerApi.Profiles
             CreateMap<AddTechDto, Tech>();
             CreateMap<Tech,AddTechDto>();
 
+            CreateMap<User, UserGetDto>();
+
         }
     }
 }

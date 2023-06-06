@@ -37,6 +37,8 @@ namespace ProjectManagerApi.Data.Models
         [Required]
         public bool PrivateRecruitment { get; set; }
 
+        public List<User> Applicants { get; set; } = new List<User>();
+
         public List<Language> Languages { get; set; } = new List<Language>();
         public List<Tech> Technologies { get; set; } = new List<Tech>();
     }

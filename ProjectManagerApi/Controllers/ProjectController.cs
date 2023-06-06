@@ -38,10 +38,10 @@ namespace ProjectManagerApi.Controllers
                 try
                 {
                     int userId = User.GetUserId();
-                    var project = await projectService.CreateProject(userId ,mapper.Map<Project>(projectDto), projectDto.TechnologiesList, projectDto.LanguagesList);
+                    var project = await projectService.CreateProject(userId, mapper.Map<Project>(projectDto), projectDto.TechnologiesList, projectDto.LanguagesList);
                     return Ok(mapper.Map<ProjectGetDto>(project));
                 }
-                catch (InvalidItemIdException e)
+                catch (InvalidItemException e)
                 {
                     return BadRequest(e.Message);
                 }
@@ -53,11 +53,18 @@ namespace ProjectManagerApi.Controllers
         [HttpPost("add-user")]
         public async Task<IActionResult> AddUserToProject(TeamUserDto addUserDto)
         {
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-                var leaderId = User.GetUserId();
-                await projectService.AddUserToProject(addUserDto.ProjectId, leaderId, addUserDto.UserId, addUserDto.RoleId);
-                return Ok();
+                try
+                {
+                    var leaderId = User.GetUserId();
+                    await projectService.AddUserToProject(addUserDto.ProjectId, leaderId, addUserDto.UserId, addUserDto.RoleId);
+                    return Ok();
+                }
+                catch (InvalidItemException e)
+                {
+                    return BadRequest(e.Message);
+                }
             }
 
             return BadRequest(ModelState);
@@ -68,9 +75,16 @@ namespace ProjectManagerApi.Controllers
         {
             if (ModelState.IsValid)
             {
-                var leaderId = User.GetUserId();
-                await projectService.ChangeUserRole(addUserDto.ProjectId, leaderId, addUserDto.UserId, addUserDto.RoleId);
-                return Ok();
+                try
+                {
+                    var leaderId = User.GetUserId();
+                    await projectService.ChangeUserRole(addUserDto.ProjectId, leaderId, addUserDto.UserId, addUserDto.RoleId);
+                    return Ok();
+                }
+                catch (InvalidItemException e)
+                {
+                    return BadRequest(e.Message);
+                }
             }
 
             return BadRequest(ModelState);
@@ -81,9 +95,16 @@ namespace ProjectManagerApi.Controllers
         {
             if (ModelState.IsValid)
             {
-                var leaderId = User.GetUserId();
-                await projectService.SetProjectStatus(projectStatusDto.ProjectId, leaderId, projectStatusDto.StatusId);
-                return Ok();
+                try
+                {
+                    var leaderId = User.GetUserId();
+                    await projectService.SetProjectStatus(projectStatusDto.ProjectId, leaderId, projectStatusDto.StatusId);
+                    return Ok();
+                }
+                catch (InvalidItemException e)
+                {
+                    return BadRequest(e.Message);
+                }
             }
 
             return BadRequest(ModelState);
@@ -100,10 +121,58 @@ namespace ProjectManagerApi.Controllers
         {
             return Ok(mapper.Map<List<ProjectGetDto>>(await projectService.GetProjectsByLanguage(langId)));
         }
+
         [HttpGet("search-by-tech/{tech}")]
         public async Task<IActionResult> GetProjectsByTech(int techId)
         {
             return Ok(mapper.Map<List<ProjectGetDto>>(await projectService.GetProjectsByTech(techId)));
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetProject(int id)
+        {
+            try
+            {
+                return Ok(mapper.Map<ProjectGetDto>(await projectService.GetProjectById(id)));
+            }
+            catch (InvalidItemException e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
+        [HttpGet("{id}/applications")]
+        public async Task<IActionResult> GetProjectApplications(int id)
+        {
+            try
+            {
+                var userId = User.GetUserId();
+                return Ok(mapper.Map<List<UserGetDto>>(await projectService.GetApplicants(userId, id)));
+            }
+            catch (InvalidItemException e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
+        [HttpPost("apply")]
+        public async Task<IActionResult> ApplyUserToProject(ApplyToProjectDto applyToProjectDto)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    var userId = User.GetUserId();
+                    await projectService.ApplyUserToProject(userId, applyToProjectDto.ProjectId);
+                    return Ok();
+                }
+                catch (InvalidItemException e)
+                {
+                    return BadRequest(e.Message);
+                }
+            }
+
+            return BadRequest(ModelState);
         }
     }
 }

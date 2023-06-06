@@ -10,7 +10,7 @@ namespace ProjectManagerApi.Extensions
             List<T> items = new List<T>();
             foreach (var id in ids)
             {
-                items.Add(await repository.Get(id) ?? throw new InvalidItemIdException(errorMessage));
+                items.Add(await repository.Get(id) ?? throw new InvalidItemException(errorMessage));
             }
             return items;
         }

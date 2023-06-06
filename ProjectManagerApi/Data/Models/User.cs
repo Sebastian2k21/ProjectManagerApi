@@ -30,5 +30,6 @@ namespace ProjectManagerApi.Data.Models
 
         public List<Tech> Technologies { get; set; } = new List<Tech>();
         public List<Language> Laguages { get; set; } = new List<Language>();
+        public List<Project> AppliedProjects { get; set; } = new List<Project>();
     }
 }

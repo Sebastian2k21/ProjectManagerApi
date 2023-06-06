@@ -42,7 +42,7 @@ namespace ProjectManagerApi.Data.Repositories
 
         public async Task<Project> FindFirst(Expression<Func<Project, bool>> expression)
         {
-            return await context.Projects.FirstOrDefaultAsync(expression);
+            return await context.Projects.Include(x => x.Applicants).FirstOrDefaultAsync(expression);
         }
 
         public async Task<Project> Get(int id)

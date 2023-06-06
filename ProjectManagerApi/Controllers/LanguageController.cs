@@ -37,7 +37,7 @@ namespace ProjectManagerApi.Controllers
                     var lang = await languageService.AddNewLanguage(mapper.Map<Language>(language));
                     return Ok(mapper.Map<Language>(lang));
                 }
-                catch (InvalidItemIdException e)
+                catch (InvalidItemException e)
                 {
                     return BadRequest(e.Message);
                 }

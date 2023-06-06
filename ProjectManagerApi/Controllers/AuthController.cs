@@ -34,7 +34,7 @@ namespace ProjectManagerApi.Controllers
                     await userService.AddUser(mapper.Map<User>(dto), dto.Password, dto.TechnologiesList, dto.LanguagesList);
                     return Ok();
                 }
-                catch (InvalidItemIdException ex) {
+                catch (InvalidItemException ex) {
                     return BadRequest(ex.Message);
                 }
             }
