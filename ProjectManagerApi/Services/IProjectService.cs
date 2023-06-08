@@ -6,7 +6,7 @@ namespace ProjectManagerApi.Services
     public interface IProjectService
     {
         Task<Project> CreateProject(int userId, Project project, List<int> technologies, List<int> languages);
-        Task<Project> UpdateProject(int userId, Project project);
+        Task<Project> UpdateProject(int userId, int projectId, Project project);
         Task<Project > GetProjectById(int projectId);
         Task ApplyUserToProject(int userId, int projectId);
         Task<List<Project>> GetAllProjects();
@@ -17,5 +17,6 @@ namespace ProjectManagerApi.Services
         Task<IEnumerable<Project>> GetProjectsByLanguage(int langId);
         Task<IEnumerable<Project>> GetProjectsByTech(int techId);
         Task<IEnumerable<User>> GetApplicants(int leaderId, int projectId);
+        Task SetRepositoryUrl(int userId, int projectId, string repositoryUrl);
     }
 }

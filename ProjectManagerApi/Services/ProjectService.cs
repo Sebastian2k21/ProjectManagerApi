@@ -9,6 +9,8 @@ namespace ProjectManagerApi.Services
     {
         private const string LeaderRoleName = "Leader";
         private const string CreatedStatusName = "Created";
+        private const string DoneStatusName = "Done";
+        private int PointsPerDifficultyLevel = 100;
 
         private readonly IBaseRepository<Project, int> projectRepository;
         private readonly IBaseRepository<User, int> userRepository;
@@ -69,7 +71,7 @@ namespace ProjectManagerApi.Services
             project.Technologies.AddRange(projectTechnologies);
             project.Languages.AddRange(projectLanguages);
 
-            var status = await statusRepository.FindFirst(status => status.Name == CreatedStatusName) ?? throw new InvalidItemException($"Status '{CreatedStatusName}' not found");
+            var status = await GetStatusByName(CreatedStatusName);
 
             await teamRepository.Add(team);
             await teamUserRepository.Add(teamUser);
@@ -143,7 +145,6 @@ namespace ProjectManagerApi.Services
 
         public async Task SetProjectStatus(int projectId, int leaderId, int statusId)
         {
-            var leader = await GetUser(leaderId, errorMessage: "Leader not found");
             var project = await GetProject(projectId);
             var status = await GetStatus(statusId);
 
@@ -152,11 +153,26 @@ namespace ProjectManagerApi.Services
                 throw new InvalidItemException("User is not a leader of this project");
             }
 
+            if(await IsProjectDone(projectId))
+            {
+                throw new InvalidItemException("Project is already done");
+            }
+
             await projectStatusRepository.Add(new ProjectStatus
             {
                 ProjectId = projectId,
                 StatusId = statusId
             });
+
+            if(status.Name == DoneStatusName)
+            {
+                var users = await teamUserRepository.FindAll(x => x.TeamId == project.TeamId);
+                users.ForEach(async user =>
+                {
+                    user.User.Points += project.DifficultyLevel * PointsPerDifficultyLevel;
+                    await userRepository.Update(user.User);
+                });
+            }
         }
 
         private async Task<User> GetUser(int id, string? errorMessage = null) => await userRepository.Get(id) ?? throw new InvalidItemException(errorMessage ?? "User not found");
@@ -218,9 +234,24 @@ namespace ProjectManagerApi.Services
 
         }
 
-        public Task<Project> UpdateProject(int userId, Project project)
+        public async Task<Project> UpdateProject(int userId, int projectId, Project projectUpdate)
         {
-            throw new NotImplementedException();
+            var user = await GetUser(userId);
+            var project = await GetProject(projectId);
+
+            project.Name = projectUpdate.Name;
+            project.Description = projectUpdate.Description;
+            project.DifficultyLevel = projectUpdate.DifficultyLevel;
+            project.PrivateRecruitment = projectUpdate.PrivateRecruitment;
+            project.FinishDate = projectUpdate.FinishDate;
+            project.Requirements = projectUpdate.Requirements;
+
+            if (!await IsLeaderOfProject(userId, project))
+            {
+                throw new InvalidItemException("User is not a leader of this project");
+            }
+            await projectRepository.Update(project);
+            return project;
         }
 
         public async Task ApplyUserToProject(int userId, int projectId)
@@ -256,6 +287,37 @@ namespace ProjectManagerApi.Services
                 throw new InvalidItemException("User is not a leader of this project");
             }
             return project.Applicants;
+        }
+
+        public async Task SetRepositoryUrl(int userId, int projectId, string repositoryUrl)
+        {
+            var project = await GetProject(projectId);
+            if (!await IsLeaderOfProject(userId, project))
+            {
+                throw new InvalidItemException("User is not a leader of this project");
+            }
+
+            if(!await IsProjectDone(projectId))
+            {
+               throw new InvalidItemException("Project is not done yet");   
+            }
+
+            project.RepositoryUrl = repositoryUrl;
+            await projectRepository.Update(project);
+        }
+
+        private async Task<Status> GetStatusByName(string statusName) => await statusRepository.FindFirst(status => status.Name == statusName) ?? throw new InvalidItemException($"Status '{statusName}' not found");
+
+        private async Task<bool> IsProjectDone(int projectId)
+        {
+            var doneStatus = await GetStatusByName(DoneStatusName);
+            var statuses = await projectStatusRepository.FindAll(x => x.ProjectId == projectId);
+            var lastStatus = statuses.OrderByDescending(x => x.DateCreated).FirstOrDefault();
+            if(lastStatus == null || lastStatus.StatusId != doneStatus.StatusId)
+            {
+                return false;
+            }
+            return true;
         }
     }
 }

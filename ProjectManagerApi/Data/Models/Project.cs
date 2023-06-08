@@ -37,6 +37,9 @@ namespace ProjectManagerApi.Data.Models
         [Required]
         public bool PrivateRecruitment { get; set; }
 
+        [MaxLength(200)]
+        public string? RepositoryUrl { get; set; }
+
         public List<User> Applicants { get; set; } = new List<User>();
 
         public List<Language> Languages { get; set; } = new List<Language>();

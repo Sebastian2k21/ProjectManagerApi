@@ -50,6 +50,26 @@ namespace ProjectManagerApi.Controllers
             return BadRequest(ModelState);
         }
 
+        [HttpPut("{projectId}")]
+        public async Task<IActionResult> UpdateProject(int projectId, ProjectUpdateDto projectUpdateDto)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    int userId = User.GetUserId();
+                    var project = await projectService.UpdateProject(userId, projectId, mapper.Map<Project>(projectUpdateDto));
+                    return Ok(mapper.Map<ProjectGetDto>(project));
+                }
+                catch (InvalidItemException e)
+                {
+                    return BadRequest(e.Message);
+                }
+            }
+
+            return BadRequest(ModelState);
+        }
+
         [HttpPost("add-user")]
         public async Task<IActionResult> AddUserToProject(TeamUserDto addUserDto)
         {
@@ -164,6 +184,26 @@ namespace ProjectManagerApi.Controllers
                 {
                     var userId = User.GetUserId();
                     await projectService.ApplyUserToProject(userId, applyToProjectDto.ProjectId);
+                    return Ok();
+                }
+                catch (InvalidItemException e)
+                {
+                    return BadRequest(e.Message);
+                }
+            }
+
+            return BadRequest(ModelState);
+        }
+
+        [HttpPost("set-repository")]
+        public async Task<IActionResult> SetRepository(RepositoryDto setRepositoryDto)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    var userId = User.GetUserId();
+                    await projectService.SetRepositoryUrl(userId, setRepositoryDto.ProjectId, setRepositoryDto.RepositoryUrl);
                     return Ok();
                 }
                 catch (InvalidItemException e)
