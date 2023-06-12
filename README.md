@@ -1,4 +1,4 @@
-# Nazwa projektu: Aplikacja do zarządzania projektami studenckimi - ProjectManagerApi
+# Aplikacja do zarządzania projektami studenckimi - ProjectManagerApi
 
 ## Opis
 
@@ -35,6 +35,4 @@ Aplikacja do zarządzania projektami studenckimi umożliwia studentom organizowa
 - Możliwe role członków zespołu: developer, tester, leader, devops.
 - Każdy z członków zespołu, który brał co najmniej ¾ czasu trwania opracowania projektu, otrzymuje punkty prestiżu. Punktacja zależy od ustawień projektu, takich jak trudność.
 
-## Licencja
 
-Ten projekt jest udostępniany na licencji MIT.
