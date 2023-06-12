@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33502.453
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectManagerApi", "ProjectManagerApi\ProjectManagerApi.csproj", "{8AAE809F-4D6A-4120-8672-55AA1254DDFE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProjectManagerApi", "ProjectManagerApi\ProjectManagerApi.csproj", "{8AAE809F-4D6A-4120-8672-55AA1254DDFE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntegrationTests", "IntegrationTests\IntegrationTests.csproj", "{AD457D4A-3EED-40C9-90A0-2AF81FA091E8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{8AAE809F-4D6A-4120-8672-55AA1254DDFE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8AAE809F-4D6A-4120-8672-55AA1254DDFE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8AAE809F-4D6A-4120-8672-55AA1254DDFE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AD457D4A-3EED-40C9-90A0-2AF81FA091E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AD457D4A-3EED-40C9-90A0-2AF81FA091E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AD457D4A-3EED-40C9-90A0-2AF81FA091E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AD457D4A-3EED-40C9-90A0-2AF81FA091E8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

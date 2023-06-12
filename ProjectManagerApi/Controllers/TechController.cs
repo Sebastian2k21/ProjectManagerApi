@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ProjectManagerApi.Data.Models;
 using ProjectManagerApi.Dto;
@@ -9,6 +10,7 @@ namespace ProjectManagerApi.Controllers
 {
     [Route("api/tech")]
     [ApiController]
+    [Authorize]
     public class TechController : ControllerBase
     {
         private readonly ITechService techService;

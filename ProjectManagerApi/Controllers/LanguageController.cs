@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using ProjectManagerApi.Data.Models;
@@ -10,6 +11,7 @@ namespace ProjectManagerApi.Controllers
 {
     [Route("api/language")]
     [ApiController]
+    [Authorize]
     public class LanguageController : ControllerBase
     {
         private readonly ILanguageService languageService;

@@ -13,6 +13,7 @@ namespace ProjectManagerApi.Controllers
 {
     [Route("api/project")]
     [ApiController]
+    [Authorize]
     public class ProjectController : ControllerBase
     {
         private readonly IMapper mapper;
@@ -130,8 +131,8 @@ namespace ProjectManagerApi.Controllers
             return BadRequest(ModelState);
         }
 
-        [HttpGet("projects-with-private-recruitment")]
-        public async Task<IActionResult> GetAllProjectWithPrivateRecruitment()
+        [HttpGet("projects-with-public-recruitment")]
+        public async Task<IActionResult> GetAllProjectWithPublicRecruitment()
         {
             return Ok(mapper.Map<List<ProjectGetDto>>(await projectService.GetAllProjectWithPrivateRecruitment()));
         }
@@ -142,7 +143,7 @@ namespace ProjectManagerApi.Controllers
             return Ok(mapper.Map<List<ProjectGetDto>>(await projectService.GetProjectsByLanguage(langId)));
         }
 
-        [HttpGet("search-by-tech/{tech}")]
+        [HttpGet("search-by-tech/{techId}")]
         public async Task<IActionResult> GetProjectsByTech(int techId)
         {
             return Ok(mapper.Map<List<ProjectGetDto>>(await projectService.GetProjectsByTech(techId)));
