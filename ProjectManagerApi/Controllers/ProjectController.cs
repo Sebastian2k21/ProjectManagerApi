@@ -228,5 +228,10 @@ namespace ProjectManagerApi.Controllers
 
             return BadRequest(ModelState);
         }
+        [HttpGet("get-all-users")]
+        public async Task<IActionResult> GetAllUsers()
+        {
+            return Ok(mapper.Map<List<UserGetDto>>(await projectService.GetAllUsers()));
+        }
     }
 }

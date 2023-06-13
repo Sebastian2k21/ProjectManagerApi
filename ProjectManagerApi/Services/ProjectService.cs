@@ -304,5 +304,10 @@ namespace ProjectManagerApi.Services
             var teamLeader = await teamUserRepository.FindFirst(x => x.RoleId == leaderRole.RoleId && x.TeamId == project.TeamId) ?? throw new InvalidItemException("Team leader not found");
             return teamLeader.UserId == userId;
         }
+
+        public async Task<IEnumerable<User>> GetAllUsers()
+        {
+            return await userRepository.GetAll();
+        }
     }
 }

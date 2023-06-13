@@ -65,5 +65,10 @@ namespace ProjectManagerApi.Data.Repositories
             await context.SaveChangesAsync();
             return entity;
         }
+
+        public async Task<List<User>> GetAllUsers()
+        {
+            return await context.Users.ToListAsync();
+        }
     }
 }
