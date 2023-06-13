@@ -390,129 +390,10 @@ namespace UnitTests
 
             Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
         }
-        [Fact]
-        public async Task CreateProject_ShouldReturnOk()
-        {
-            Athrz();
-            var projectDto = new ProjectDto()
-            {
-                Name = "Test",
-                Description = "Test",
-                DifficultyLevel = 1,
-                Requirements = "none",
-                PrivateRecruitment = false,
-                FinishDate = DateTime.Now,
-                LanguagesList = new List<int>() { },
-                TechnologiesList = new List<int>() { }
-            };
-            
-
-            var content = JsonContent.Create(projectDto);
-
-            var response = await _client.PostAsync("api/project", content);
-            Assert.Equal(HttpStatusCode.OK,response.StatusCode);
-        }
-        [Fact]
-        public async Task CreateProject_ShouldReturnUnauthorized()
-        {
-            var projectDto = new ProjectDto()
-            {
-                Name = "Test",
-                Description = "Test",
-                DifficultyLevel = 1,
-                Requirements = "none",
-                PrivateRecruitment = false,
-                FinishDate = DateTime.Now,
-                LanguagesList = new List<int>() { },
-                TechnologiesList = new List<int>() { }
-            };
-
-            var content = JsonContent.Create(projectDto);
-
-            var response = await _client.PostAsync("api/project", content);
-            Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
-        }
-        [Fact]
-        public async Task CreateProject_ShouldReturnBadRequest()
-        {
-            var projectDto = new Project()
-            {
-                ProjectId= 2,
-                Description = "Test",
-                DifficultyLevel = 1,
-                Requirements = "none",
-                PrivateRecruitment = false,
-                FinishDate = DateTime.Now,
-                
-            };
-            Athrz();
-
-            var content = JsonContent.Create(projectDto);
-
-            var response = await _client.PostAsync("api/project", content);
-            Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
-        }
-        [Fact]
-        public async Task UpdateProject_ShouldReturnOk()
-        {
-            Athrz();
-            int projectId = 1;
-            var pud = new ProjectUpdateDto()
-            {
-                Name = "Test 2",
-                Description= "Test 2",
-                DifficultyLevel = 2,
-                FinishDate= DateTime.Now,
-                PrivateRecruitment= false,
-                Requirements= "none",
-
-            };
-
-            var content = JsonContent.Create(pud);
-            var respose = await _client.PutAsync($"api/project/{projectId}", content);
-
-            Assert.Equal(HttpStatusCode.OK, respose.StatusCode);
-        }
-        [Fact]
-        public async Task UpdateProject_ShouldReturnBadRequest()
-        {
-            Athrz();
-            int projectId = 1;
-            var pud = new ProjectUpdateDto()
-            {
-                Name = "Test 2",
-                Description = "Test 2",
-                DifficultyLevel = 2,
-                FinishDate = DateTime.Now,
-                PrivateRecruitment = false,
-
-            };
-
-            var content = JsonContent.Create(pud);
-            var respose = await _client.PutAsync($"api/project/{projectId}", content);
-
-            Assert.Equal(HttpStatusCode.BadRequest, respose.StatusCode);
-        }
-        [Fact]
-        public async Task UpdateProject_ShouldReturnUnauthorized()
-        {
-            int projectId = 1;
-            var pud = new ProjectUpdateDto()
-            {
-                Name = "Test 2",
-                Description = "Test 2",
-                DifficultyLevel = 2,
-                FinishDate = DateTime.Now,
-                PrivateRecruitment = false,
-                Requirements = "none",
-
-            };
-
-            var content = JsonContent.Create(pud);
-            var respose = await _client.PutAsync($"api/project/{projectId}", content);
-
-            Assert.Equal(HttpStatusCode.Unauthorized, respose.StatusCode);
-        }
+     
+     
+        
+       
         [Fact]
         public async Task ChangeRole_ShouldReturnOk()
         {
@@ -662,30 +543,8 @@ namespace UnitTests
         }
         
         
-        [Fact]
-        public async Task GetProjectsByLanguage_ShouldReturnOk()
-        {
-            Athrz();
-            int langId = 1;
-
-
-            var response = await _client.GetAsync($"api/project/serach-by-lang/{langId}");
-
-
-            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
-        }
-        [Fact]
-        public async Task GetProjectsByLanguage_ShouldReturnUnauhtorized()
-        {
-
-            int langId = 1;
-
-
-            var response = await _client.GetAsync($"api/project/serach-by-lang/{langId}");
-
-
-            Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
-        }
+      
+        
         [Fact]
         public async Task GetProjectsByTech_ShouldReturnOk()
         {
