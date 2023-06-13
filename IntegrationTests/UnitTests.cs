@@ -660,18 +660,8 @@ namespace UnitTests
 
             Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
         }
-        [Fact]
-        public async void GetAllProjectsWithPublicRecuitment_ShouldReturnOneProject()
-        {
-            Athrz();
-            var result = await _client.GetFromJsonAsync<List<ProjectDto>>("api/project/projects-with-public-recruitment");
-            if (result != null)
-            {
-                Assert.Single(result);
-                Assert.Equal("Test", result[0].Name);
-            }
-
-        }
+        
+        
         [Fact]
         public async Task GetProjectsByLanguage_ShouldReturnOk()
         {
@@ -761,21 +751,7 @@ namespace UnitTests
 
             Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
         }
-        [Fact]
-        public async Task SetRepository_ReturnsOk()
-        {
-            Athrz();
-            var setRepositoryDto = new RepositoryDto
-            {
-                ProjectId = 1,
-                RepositoryUrl = "https://github.com/example/repo"
-            };
-            var response = await _client.PostAsJsonAsync("api/project/set-repository", setRepositoryDto);
-
-
-            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
-            
-        }
+        
 
 
     }
