@@ -18,5 +18,6 @@ namespace ProjectManagerApi.Services
         Task<IEnumerable<Project>> GetProjectsByTech(int techId);
         Task<IEnumerable<User>> GetApplicants(int leaderId, int projectId);
         Task SetRepositoryUrl(int userId, int projectId, string repositoryUrl);
+        Task<IEnumerable<TeamUser>> GetProjectMembers(int projectId);
     }
 }

@@ -42,7 +42,7 @@ namespace ProjectManagerApi.Controllers
             return BadRequest("Invalid data in body");
         }
 
-        [HttpPost("Login")]
+        [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginDto dto)
         {
             if(ModelState.IsValid)

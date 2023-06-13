@@ -31,7 +31,7 @@ namespace ProjectManagerApi.Data.Repositories
 
         public async Task<List<TeamUser>> FindAll(Expression<Func<TeamUser, bool>> expression)
         {
-            return await context.TeamUsers.Where(expression).ToListAsync();
+            return await context.TeamUsers.Include(x => x.User).Include(x => x.Role).Where(expression).ToListAsync();
         }
 
         public async Task<TeamUser> FindFirst(Expression<Func<TeamUser, bool>> expression)

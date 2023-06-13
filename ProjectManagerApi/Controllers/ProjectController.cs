@@ -31,7 +31,7 @@ namespace ProjectManagerApi.Controllers
             return Ok(mapper.Map<List<ProjectGetDto>>(await projectService.GetAllProjects()));
         }
 
-        [HttpPost]
+        [HttpPost("add")]
         public async Task<IActionResult> CreateProject(ProjectDto projectDto)
         {
             if (ModelState.IsValid)
@@ -51,7 +51,7 @@ namespace ProjectManagerApi.Controllers
             return BadRequest(ModelState);
         }
 
-        [HttpPut("{projectId}")]
+        [HttpPut("{projectId}/update")]
         public async Task<IActionResult> UpdateProject(int projectId, ProjectUpdateDto projectUpdateDto)
         {
             if (ModelState.IsValid)
@@ -137,7 +137,7 @@ namespace ProjectManagerApi.Controllers
             return Ok(mapper.Map<List<ProjectGetDto>>(await projectService.GetAllProjectWithPrivateRecruitment()));
         }
 
-        [HttpGet("serach-by-lang/{langId}")]
+        [HttpGet("search-by-lang/{langId}")]
         public async Task<IActionResult> GetProjectsByLanguage(int langId)
         {
             return Ok(mapper.Map<List<ProjectGetDto>>(await projectService.GetProjectsByLanguage(langId)));
@@ -169,6 +169,19 @@ namespace ProjectManagerApi.Controllers
             {
                 var userId = User.GetUserId();
                 return Ok(mapper.Map<List<UserGetDto>>(await projectService.GetApplicants(userId, id)));
+            }
+            catch (InvalidItemException e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
+        [HttpGet("{id}/members")]
+        public async Task<IActionResult> GetProjectMembers(int id)
+        {
+            try
+            {
+                return Ok(mapper.Map<List<ProjectMemberDto>>(await projectService.GetProjectMembers(id)));
             }
             catch (InvalidItemException e)
             {
