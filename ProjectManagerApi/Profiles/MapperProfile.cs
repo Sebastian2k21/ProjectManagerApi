@@ -15,6 +15,8 @@ namespace ProjectManagerApi.Profiles
                 .ForMember(dest => dest.Languages, opt => opt.MapFrom(src => src.Languages.Select(x => x.LanguageId).ToList()))
                 .ForMember(dest => dest.Technologies, opt => opt.MapFrom(src => src.Technologies.Select(x => x.TechId).ToList()));
 
+            CreateMap<User, UserEditDto>();
+
             CreateMap<Language, LanguageDto>();
             CreateMap<LanguageDto, Language>();
             CreateMap<AddLanguageDto, Language>();

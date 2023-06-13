@@ -1,5 +1,6 @@
 ﻿using ProjectManagerApi.Data.Models;
 using ProjectManagerApi.Data.Repositories;
+using ProjectManagerApi.Dto;
 using ProjectManagerApi.Exceptions;
 using ProjectManagerApi.Extensions;
 using System.Security.Cryptography;
@@ -51,5 +52,17 @@ namespace ProjectManagerApi.Services
             var hash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
             return user.PasswordHash.SequenceEqual(hash); //porownuje czy w obu tabliacach sa takie same elementy, bez tego trzeba by bylo uzyc petli
         }
+        public async Task<User> EditProfileInfo(UserEditDto user)
+        {
+            var userToEdit = await userRepository.FindFirst(x => x.Id == user.Id);
+            if (userToEdit == null)
+            {
+                throw new Exception();
+            }
+            userToEdit.FirstName = user.FirstName;
+            userToEdit.LastName = user.LastName;
+            userToEdit.Email = user.Email;
+            return userToEdit;
+        }   
     }
 }
